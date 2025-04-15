@@ -36,6 +36,11 @@
       color: white;
       margin-top: 30px;
     }
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -47,26 +52,31 @@
   <section id="abstract">
     <h2>Abstract</h2>
     <p>
-      This research presents the design, implementation, and simulation of a robust trajectory tracking control system for a mobile robot by integrating Hector SLAM with a fractional Cascaded Active Disturbance Rejection Control (CADRC) strategy. The system is designed to operate solely with a 2D LiDAR sensor for real-time environmental perception and navigation, avoiding the need for wheel encoders or inertial sensors.
+      This research presents the design, implementation, and simulation of a robust trajectory tracking control system for a mobile robot by integrating Hector SLAM with a fractional Cascaded Active Disturbance Rejection Control (FADRC) strategy. The system is designed to operate solely with a 2D LiDAR sensor for real-time environmental perception and navigation, avoiding the need for wheel encoders or inertial sensors.
     </p>
     <p>
-      This proposed approach is motivated by the limitations of conventional control methods such as PID and conventional ADRC, which often struggle in dealing with real world challenges such as measurement noise, unmodeled dynamics, and external disturbances in real-world environments. By using Hector SLAM, the system can achieve accurate localization from laser scans alone, while CADRC can improve control robustness by compensating for external disturbances, and dealing with real world challenges through a fractional-order and multi-layered observer structure.
+      This proposed approach is motivated by the limitations of conventional control methods such as PID and conventional ADRC, which often struggle in dealing with real world challenges such as measurement noise, unmodeled dynamics, and external disturbances in real-world environments. By using Hector SLAM, the system can achieve accurate localization from laser scans alone, while FADRC can improve control robustness by compensating for external disturbances, and dealing with real world challenges through a fractional-order and multi-layered observer structure.
     </p>
     <p>
-      The CADRC control architecture combines a fractional-order Extended State Observer (ESO) with a cascaded loop to enhance disturbance estimation and rejection. The system is evaluated through simulation across various trajectories—including circular, infinity, and scenarios with sudden disturbances—and benchmarked against a classical PID controller to highlight performance gains in tracking accuracy and responsiveness.
+      The FADRC control architecture combines a fractional-order Extended State Observer (ESO) with a cascaded loop to enhance disturbance estimation and rejection. The system is evaluated through simulation across various trajectories—including circular, infinity, and scenarios with sudden disturbances—and benchmarked against a classical PID controller to highlight performance gains in tracking accuracy and responsiveness.
     </p>
     <p>
-      The results demonstrate that the proposed Hector SLAM and CADRC integration enables reliable and precise trajectory tracking under noisy and dynamic conditions. This contributes to the development of more robust, sensor-efficient autonomous robots, offering a practical solution for environments where odometry is unreliable or unavailable, with broader implications for advancing intelligent and adaptable robotic systems.
+      The results demonstrate that the proposed Hector SLAM and FADRC integration enables reliable and precise trajectory tracking under noisy and dynamic conditions. This contributes to the development of more robust, sensor-efficient autonomous robots, offering a practical solution for environments where odometry is unreliable or unavailable, with broader implications for advancing intelligent and adaptable robotic systems.
     </p>
   </section>
 
-  <section id="motivation">
-    <h2>1. Motivation & Problem Statement</h2>
-    <p>The project addresses the challenge of robust trajectory tracking in mobile robots operating in environments where conventional odometry and inertial sensors are unreliable or unavailable. Traditional control strategies such as PID and ADRC face limitations in handling disturbances, noise, and model uncertainties. This project proposes a novel solution by integrating:</p>
-    <ul>
-      <li>Hector SLAM for LiDAR-based localization without odometry</li>
-      <li>Fractional Cascaded ADRC (CADRC) for robust control and disturbance rejection</li>
-    </ul>
+  <section id="methodology">
+    <h2>1. Methodology</h2>
+    <p>
+      The overall methodology consists of two primary modules: localization using Hector SLAM and robust control using Fractional-order Cascaded Active Disturbance Rejection Control (FADRC). The figure below presents the integrated framework of the system.
+    </p>
+    <img src="5380bab3-e8e9-4a68-9102-e48b31630fe0.png" alt="System Architecture Diagram">
+    <p>
+      The desired trajectory is fed into a finite difference module to compute the required velocity commands. These are compared with real velocity estimates, calculated from the real position obtained via Hector SLAM using LiDAR scans. The error between desired and real velocities is processed by a PD controller, which generates a nominal control input. This is augmented by disturbance estimates provided by a bank of Fractional-order Extended State Observers (FESOs), operating in a cascaded fashion to capture unmodeled dynamics and external disturbances. The final control signal is then scaled by an estimated control gain inverse and applied to the robot model.
+    </p>
+    <p>
+      The localization system, powered by Hector SLAM, continuously updates the robot’s real-time position using only the LiDAR data, ensuring odometry-free operation. The control loop relies on accurate pose feedback to close the loop and update the velocity tracking error, forming a complete SLAM-control integration.
+    </p>
   </section>
 
   <section id="system-architecture">
@@ -82,7 +92,7 @@
   </section>
 
   <section id="simulation-scenarios">
-    <h2>4. Simulation Scenarios</h2>
+    <h2>3. Simulation Scenarios</h2>
     <p>Multiple control cases were designed and executed to validate system performance:</p>
     <ul>
       <li>Circular trajectory tracking under normal conditions</li>
@@ -90,16 +100,16 @@
       <li>Sudden external disturbances and recovery test</li>
       <li>Comparison to classical PID tracking under same conditions</li>
     </ul>
-    <p>Each scenario demonstrates robustness, tracking accuracy, and response sharpness of the CADRC method.</p>
+    <p>Each scenario demonstrates robustness, tracking accuracy, and response sharpness of the FADRC method.</p>
   </section>
 
   <section id="results">
-    <h2>6. Results (Coming Soon)</h2>
+    <h2>4. Results (Coming Soon)</h2>
     <p>Simulation plots and videos for the above test cases will be included in the next version:</p>
     <ul>
       <li>Trajectory tracking plots (x, y)</li>
       <li>Control signals (v, w) and estimated disturbances</li>
-      <li>Comparison graphs (CADRC vs PID)</li>
+      <li>Comparison graphs (FADRC vs PID)</li>
       <li>Demo videos embedded or linked</li>
     </ul>
   </section>
