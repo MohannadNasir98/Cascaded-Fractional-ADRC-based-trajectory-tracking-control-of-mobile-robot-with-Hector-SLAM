@@ -70,7 +70,7 @@
     <p>
       The overall methodology consists of two primary modules: localization using Hector SLAM and robust control using Fractional-order Cascaded Active Disturbance Rejection Control (FADRC). The figure below presents the integrated framework of the system.
     </p>
-    <img src="5380bab3-e8e9-4a68-9102-e48b31630fe0.png" alt="System Architecture Diagram">
+  <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/Overall%20Sys%20Archt%20V1.png">
     <p>
       The desired trajectory is fed into a finite difference module to compute the required velocity commands. These are compared with real velocity estimates, calculated from the real position obtained via Hector SLAM using LiDAR scans. The error between desired and real velocities is processed by a PD controller, which generates a nominal control input. This is augmented by disturbance estimates provided by a bank of Fractional-order Extended State Observers (FESOs), operating in a cascaded fashion to capture unmodeled dynamics and external disturbances. The final control signal is then scaled by an estimated control gain inverse and applied to the robot model.
     </p>
