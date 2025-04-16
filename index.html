@@ -68,11 +68,11 @@
   <section id="methodology">
     <h2>1. Methodology</h2>
     <p>
-      The overall methodology consists of two primary modules: localization using Hector SLAM and robust control using Fractional-order Cascaded Active Disturbance Rejection Control (FADRC). The figure below presents the integrated framework of the system.
+      The overall methodology consists of two primary modules: localization using Hector SLAM and robust control using FADRC. The figure below presents the integrated framework of the system.
     </p>
   <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/Overall%20Sys%20Archt%20V1.png">
     <p>
-      The desired trajectory is fed into a finite difference module to compute the required velocity commands. These are compared with real velocity estimates, calculated from the real position obtained via Hector SLAM using LiDAR scans. The error between desired and real velocities is processed by a PD controller, which generates a nominal control input. This is augmented by disturbance estimates provided by a bank of Fractional-order Extended State Observers (FESOs), operating in a cascaded fashion to capture unmodeled dynamics and external disturbances. The final control signal is then scaled by an estimated control gain inverse and applied to the robot model.
+      In the Figure, the desired trajectory is fed into a finite difference module to compute the required velocity commands. These are compared with real velocity estimates, calculated from the real position obtained via Hector SLAM using LiDAR scans. The error between desired and real velocities is processed by a PD controller, which generates a nominal control input. This is augmented by disturbance estimates provided by a set of Fractional-order Extended State Observers (FESOs), operating in a cascaded way to capture unmodeled dynamics and external disturbances. The final control signal is then scaled by an estimated control gain inverse and applied to the robot model.
     </p>
     <p>
       The localization system, powered by Hector SLAM, continuously updates the robot’s real-time position using only the LiDAR data, ensuring odometry-free operation. The control loop relies on accurate pose feedback to close the loop and update the velocity tracking error, forming a complete SLAM-control integration.
@@ -85,22 +85,22 @@
     <ul>
       <li><strong>LiDAR Perception:</strong> 2D RPLiDAR for environment mapping</li>
       <li><strong>Hector SLAM:</strong> Provides real-time pose estimation from laser scans</li>
-      <li><strong>Controller:</strong> Cascaded Fractional ADRC with dual Extended State Observers</li>
-      <li><strong>Mobile Base:</strong> Differential Drive Robot simulated in Gazebo</li>
+      <li><strong>Controller:</strong> Cascaded Fractional ADRC with n-Extended State Observers</li>
+      <li><strong>Mobile Base:</strong> Differential Drive Mobile Robot simulated in Gazebo world (Turtlebot3)</li>
     </ul>
     <p>A block diagram and node graph visualization will be added soon.</p>
   </section>
 
   <section id="simulation-scenarios">
     <h2>3. Simulation Scenarios</h2>
-    <p>Multiple control cases were designed and executed to validate system performance:</p>
+    <p>Multiple control cases were designed and executed to validate system performance against PID controller:</p>
     <ul>
       <li>Circular trajectory tracking under normal conditions</li>
-      <li>Infinity trajectory with moderate noise in feedback</li>
-      <li>Sudden external disturbances and recovery test</li>
-      <li>Comparison to classical PID tracking under same conditions</li>
+      <li>Circular trajectory with moderate noise in feedback</li>
+      <li>Sudden external disturbances with the same trajectory</li>
+      <li>Complex trajectory (e.g., infinity path) with both noisy measurements and sudden external disturbance</li>
     </ul>
-    <p>Each scenario demonstrates robustness, tracking accuracy, and response sharpness of the FADRC method.</p>
+    <p>Each scenario demonstrates robustness, tracking accuracy, and response sharpness of the proposed FADRC method.</p>
   </section>
 
   <section id="results">
@@ -115,7 +115,7 @@
   </section>
 
   <footer>
-    <p>Project by Mohannad Nasir | Khalifa University | 2025</p>
+    <p>Project by Mohannad Nasir | Course: Robotic Perception | Professor: Jorge Dias | Khalifa University | 2025</p>
   </footer>
 </body>
 </html>
