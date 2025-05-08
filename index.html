@@ -70,7 +70,7 @@
     <p>
       The overall methodology consists of two primary modules: localization using Hector SLAM and robust control using FADRC. The figure below presents the integrated framework of the system.
     </p>
-  <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/Overall%20Sys%20Archt%20V1.png">
+  <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/System%20Archt_v2.png">
     <p>
       In the Figure, the desired trajectory is fed into a finite difference module to compute the required velocity commands. These are compared with real velocity estimates, calculated from the real position obtained via Hector SLAM using LiDAR scans. The error between desired and real velocities is processed by a PD controller, which generates a nominal control input. This is augmented by disturbance estimates provided by a set of Fractional-order Extended State Observers (FESOs), operating in a cascaded way to capture unmodeled dynamics and external disturbances. The final control signal is then scaled by an estimated control gain inverse and applied to the robot model.
     </p>
@@ -78,7 +78,7 @@
       The localization system, powered by Hector SLAM, continuously updates the robot’s real-time position using only the LiDAR data, ensuring odometry-free operation. The control loop relies on accurate pose feedback to close the loop and update the velocity tracking error, forming a complete SLAM-control integration.
       To support the simulation and real-time implementation of the proposed methodology, a modular ROS-based architecture was developed, as shown in Figure 2. The system leverages Gazebo for simulating the TurtleBot3 robot and environment. The robot model continuously publishes laser scan data, which is consumed by the Hector SLAM node to estimate the robot’s current pose. The estimated pose is then passed to the FCADRC controller node, which computes control commands based on a predefined trajectory and real-time feedback. These commands are published to the /cmd_vel topic, closing the control loop. Logging mechanisms are also included for performance analysis and validation, comparing the actual and reference trajectories.
     <p>
-  <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/System%20Interface.png">
+  <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/System%20Interface_V2.png">
     </p>
     </p>
   </section>
@@ -95,28 +95,83 @@
     <p>A block diagram and node graph visualization will be added soon.</p>
   </section>
 
-  <section id="simulation-scenarios">
-    <h2>3. Simulation Scenarios</h2>
-    <p>Multiple control cases were designed and executed to validate system performance against PID controller:</p>
-    <ul>
-      <li>Circular trajectory tracking under normal conditions</li>
-      <li>Circular trajectory with moderate noise in feedback</li>
-      <li>Sudden external disturbances with the same trajectory</li>
-      <li>Complex trajectory (e.g., infinity path) with both noisy measurements and sudden external disturbance</li>
-    </ul>
-    <p>Each scenario demonstrates robustness, tracking accuracy, and response sharpness of the proposed FADRC method.</p>
-  </section>
-
   <section id="results">
-    <h2>4. Results (Coming Soon)</h2>
-    <p>Simulation plots and videos for the above test cases will be included in the next version:</p>
-    <ul>
-      <li>Trajectory tracking plots (x, y)</li>
-      <li>Control signals (v, w) and estimated disturbances</li>
-      <li>Comparison graphs (FADRC vs PID)</li>
-      <li>Demo videos embedded or linked</li>
-    </ul>
-  </section>
+  <h2>4. Results and Discussion</h2>
+  <p>
+    A comprehensive set of simulation scenarios was conducted to evaluate the robustness, tracking accuracy, and generalizability of the proposed Fractional Cascaded Active Disturbance Rejection Control (FCADRC) system, in comparison to classical PID and conventional ADRC controllers. Four test cases were explored:
+  </p>
+  <ul>
+    <li><strong>Case 1:</strong> Circular trajectory tracking under ideal, noise-free, and disturbance-free conditions.</li>
+    <li><strong>Case 2:</strong> Same circular trajectory with added Gaussian sensor noise (standard deviation = 0.01).</li>
+    <li><strong>Case 3:</strong> Circular trajectory tracking with step disturbances applied at 6–8s (0.3 m/s linear, 0.2 rad/s angular).</li>
+    <li><strong>Case 4:</strong> A complex infinity-shaped trajectory under both noise and step disturbances (10–12s).</li>
+  </ul>
+
+  <p>
+    Under ideal conditions (Case 1), the FCADRC demonstrated superior performance with minimal overshoot, fastest convergence, and the most precise velocity tracking. When Gaussian noise was introduced (Case 2), its multi-layered disturbance estimation architecture proved resilient, maintaining stable control where PID noticeably degraded. In Case 3, the FCADRC rapidly compensated for abrupt disturbances, significantly outperforming both PID and ADRC in disturbance rejection and recovery time. Case 4, designed as the most demanding scenario, validated the controller’s robustness under both dynamic trajectory and external disturbances, with FCADRC showing minimal deviation and consistent tracking despite increased system complexity.
+  </p>
+
+  <p>
+    The effectiveness of each controller was also quantified using the Mean Squared Error (MSE) for both linear and angular velocities, across all scenarios:
+  </p>
+
+  <table>
+    <caption><strong>Table 1:</strong> MSE comparison between PID, ADRC, and FCADRC for linear and angular velocities across all cases</caption>
+    <thead>
+      <tr>
+        <th>Test Case</th>
+        <th>Velocity</th>
+        <th>PID</th>
+        <th>ADRC</th>
+        <th>FCADRC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="2">Case 1</td><td>Linear (v)</td><td>0.0045</td><td>0.0030</td><td>0.0015</td></tr>
+      <tr><td>Angular (ω)</td><td>0.0467</td><td>0.0239</td><td>0.0190</td></tr>
+
+      <tr><td rowspan="2">Case 2</td><td>Linear (v)</td><td>0.0048</td><td>0.0030</td><td>0.0015</td></tr>
+      <tr><td>Angular (ω)</td><td>0.0579</td><td>0.0272</td><td>0.0190</td></tr>
+
+      <tr><td rowspan="2">Case 3</td><td>Linear (v)</td><td>0.0047</td><td>0.0032</td><td>0.0025</td></tr>
+      <tr><td>Angular (ω)</td><td>0.0475</td><td>0.0248</td><td>0.0235</td></tr>
+
+      <tr><td rowspan="2">Case 4</td><td>Linear (v)</td><td>0.0014</td><td>0.0013</td><td>0.0005</td></tr>
+      <tr><td>Angular (ω)</td><td>0.0260</td><td>0.0257</td><td>0.0147</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    As shown in Table 1, the FCADRC consistently yields the lowest MSE values across all test scenarios, demonstrating its enhanced tracking precision and robustness to both noise and disturbances. Notably, its performance advantage becomes more pronounced in the presence of uncertainties, where PID and even ADRC exhibit higher errors and delayed recovery.
+  </p>
+
+  <p>
+    To further validate generalizability, the same controller and tuned parameters were applied without modification to a second mobile robot, the Pioneer 3-DX (P3DX), which differs in physical characteristics and dynamic parameters (especially in its input gain matrix). Even under the most complex condition—an infinity trajectory with disturbances and noise—the FCADRC maintained stable, accurate tracking behavior. This confirms the controller’s platform-independence and minimal need for retuning, highlighting its suitability for real-world deployment across different robotic platforms.
+  </p>
+
+  <p>
+    While visualization plots and videos of the controller outputs are excluded in this version, the following materials will be included in the final release:
+  </p>
+  <ul>
+    <li>Trajectory tracking plots (position and orientation)</li>
+    <li>Control input signals (linear and angular velocities), and disturbance estimates</li>
+    <li>MSE-based and qualitative comparison graphs for PID, ADRC, and FCADRC</li>
+    <li>Embedded demo videos demonstrating each test scenario</li>
+  </ul>
+</section>
+
+  <section id="demo">
+  <h2>5. Demonstration Video</h2>
+  <p>
+    To provide a clearer understanding of the controller's real-time behavior and practical effectiveness, the following demo video showcases the FCADRC-based trajectory tracking performance under the most complex test scenario (Case 4) involving noise, disturbances, and an infinity-shaped path.
+  </p>
+
+  <div style="text-align: center; margin-top: 15px;">
+    <iframe src="https://drive.google.com/file/d/1YDquf4-z0W8uTb8dfqrh8lrPM-xDl1gl/preview" 
+            width="720" height="405" allow="autoplay" allowfullscreen></iframe>
+  </div>
+</section>
+
 
   <footer>
     <p>Project by Mohannad Nasir | Course: Robotic Perception | Professor: Jorge Dias | Khalifa University | 2025</p>
