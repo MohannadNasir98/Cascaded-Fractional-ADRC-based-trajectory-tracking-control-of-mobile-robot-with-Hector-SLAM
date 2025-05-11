@@ -97,16 +97,17 @@
     </p>
   </section>
 
-  <section id="system-architecture">
-    <h2>2. System Architecture</h2>
-    <p>The overall architecture consists of:</p>
-    <ul>
-      <li><strong>LiDAR Perception:</strong> 2D RPLiDAR for environment mapping</li>
-      <li><strong>Hector SLAM:</strong> Provides real-time pose estimation from laser scans</li>
-      <li><strong>Controller:</strong> Cascaded Fractional ADRC with n-Extended State Observers</li>
-      <li><strong>Mobile Base:</strong> Differential Drive Mobile Robot simulated in Gazebo world (Turtlebot3)</li>
-    </ul>
-  </section>
+<section id="system-architecture">
+  <h2>2. System Architecture</h2>
+  <p>The overall architecture integrates perception, localization, and control modules to enable robust trajectory tracking in dynamic environments. The core components and their interactions are as follows:</p>
+  <ul>
+    <li><strong>LiDAR Perception:</strong> A 2D RPLiDAR A1 sensor continuously scans the environment, generating real-time laser data. This data is used for both mapping and localization.</li>
+    <li><strong>Hector SLAM:</strong> Operates directly on the laser scans to build an occupancy grid map and estimate the robot's pose in real time without requiring odometry, making it ideal for low-cost systems.</li>
+    <li><strong>Controller:</strong> A Cascaded Fractional Active Disturbance Rejection Controller (FCADRC) employs two nested Extended State Observers (ESOs). The first ESO estimates states and disturbances; the second refines disturbance estimation using fractional dynamics, allowing improved compensation and finite-time convergence.</li>
+    <li><strong>Mobile Base:</strong> A TurtleBot3 differential drive robot is simulated in the Gazebo environment. It receives linear and angular velocity commands from the FCADRC, enabling it to track predefined or dynamically generated trajectories under various disturbance conditions.</li>
+  </ul>
+  <p>The entire system is implemented in the ROS-Gazebo framework, ensuring modular communication via ROS topics and allowing real-time monitoring, data logging, and future scalability to hardware deployment.</p>
+</section>
 
   <section id="results">
   <h2>4. Results and Discussion</h2>
