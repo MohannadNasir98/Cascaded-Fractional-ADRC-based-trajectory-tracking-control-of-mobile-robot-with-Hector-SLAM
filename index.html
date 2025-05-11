@@ -88,12 +88,6 @@
     <p>
       In the Figure, the desired trajectory is fed into a finite difference module to compute the required velocity commands. These are compared with real velocity estimates, calculated from the real position obtained via Hector SLAM using LiDAR scans. The error between desired and real velocities is processed by a PD controller, which generates a nominal control input. This is augmented by disturbance estimates provided by a set of Fractional-order Extended State Observers (FESOs), operating in a cascaded way to capture unmodeled dynamics and external disturbances. The final control signal is then scaled by an estimated control gain inverse and applied to the robot model.
     </p>
-    <p>
-      The localization system, powered by Hector SLAM, continuously updates the robot’s real-time position using only the LiDAR data, ensuring odometry-free operation. The control loop relies on accurate pose feedback to close the loop and update the velocity tracking error, forming a complete SLAM-control integration.
-      To support the simulation and real-time implementation of the proposed methodology, a modular ROS-based architecture was developed, as shown in Figure 2. The system leverages Gazebo for simulating the TurtleBot3 robot and environment. The robot model continuously publishes laser scan data, which is consumed by the Hector SLAM node to estimate the robot’s current pose. The estimated pose is then passed to the FCADRC controller node, which computes control commands based on a predefined trajectory and real-time feedback. These commands are published to the /cmd_vel topic, closing the control loop. Logging mechanisms are also included for performance analysis and validation, comparing the actual and reference trajectories.
-    <p>
-  <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/System%20Interface_V2.png">
-    </p>
     </p>
   </section>
 
@@ -106,7 +100,9 @@
     <li><strong>Controller:</strong> A Cascaded Fractional Active Disturbance Rejection Controller (FCADRC) employs two nested Extended State Observers (ESOs). The first ESO estimates states and disturbances; the second refines disturbance estimation using fractional dynamics, allowing improved compensation and finite-time convergence.</li>
     <li><strong>Mobile Base:</strong> A TurtleBot3 differential drive robot is simulated in the Gazebo environment. It receives linear and angular velocity commands from the FCADRC, enabling it to track predefined or dynamically generated trajectories under various disturbance conditions.</li>
   </ul>
-  <p>The entire system is implemented in the ROS-Gazebo framework, ensuring modular communication via ROS topics and allowing real-time monitoring, data logging, and future scalability to hardware deployment.</p>
+  <p>The localization system, powered by Hector SLAM, continuously updates the robot’s real-time position using only the LiDAR data, ensuring odometry-free operation. The control loop relies on accurate pose feedback to close the loop and update the velocity tracking error, forming a complete SLAM-control integration. To support the simulation and real-time implementation of the proposed methodology, a modular ROS-based architecture was developed, as shown in Figure 2. The system leverages Gazebo for simulating the TurtleBot3 robot and environment. The robot model continuously publishes laser scan data, which is consumed by the Hector SLAM node to estimate the robot’s current pose. The estimated pose is then passed to the FCADRC controller node, which computes control commands based on a predefined trajectory and real-time feedback. These commands are published to the /cmd_vel topic, closing the control loop. Logging mechanisms are also included for performance analysis and validation, comparing the actual and reference trajectories.</p>
+    <img src="https://raw.githubusercontent.com/MohannadNasir98/Cascaded-Fractional-ADRC-based-trajectory-tracking-control-of-mobile-robot-with-Hector-SLAM/main/System%20Interface_V2.png">
+    </p>
 </section>
 
   <section id="results">
