@@ -174,5 +174,31 @@
   </div>
 </section>
 
+<section id="conclusion">
+  <h2>6. Conclusion and Future Work</h2>
+  <p>
+    This research presented the design and simulation of a robust trajectory tracking controller using FCADRC integrated with Hector SLAM for localization.
+    The system was tested on the TurtleBot3 in a ROS-Gazebo environment using only a 2D LiDAR. Across four test cases, FCADRC consistently outperformed classical PID and standard ADRC in tracking accuracy, disturbance rejection, and noise robustness.
+    To assess generalizability, the same controller was applied to a second robot, the P3DX, with different dynamics and a distinct <i>b<sub>0</sub></i> value.
+    The FCADRC maintained high performance without re-tuning, confirming its adaptability across platforms and strong potential for real-world deployment.
+  </p>
+
+  <p>
+    For future work, the simulation can be extended to real-time hardware implementation. A practical prototype may include a Raspberry Pi 4B for SLAM and control,
+    an RPLiDAR A1 sensor for localization, and an Arduino Uno with an L293D motor driver for actuator control, as illustrated in Fig. 6.
+    Wireless communication via a Wi-Fi router would allow remote monitoring. This setup enables validation of FCADRC under real-world constraints
+    such as sensor noise and communication delays. Further research may also explore its scalability to more complex robots and its application to
+    multi-robot coordination or autonomous navigation in unknown environments.
+  </p>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <img src="Future hardware implementation_v2.png" alt="Hardware Implementation Diagram" width="600" />
+    <p><b>Fig. 6:</b> Proposed prototype hardware setup for real-world testing of FCADRC.</p>
+  </div>
+</section>
+
+
+
+    
 </body>
 </html>
